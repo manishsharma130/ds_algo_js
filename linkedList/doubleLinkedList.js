@@ -86,7 +86,35 @@ DoubleLinkedList.prototype.insertIntoDLL = function (data, position = 1) {
 	}
 };
 
-DoubleLinkedList.prototype.deleteFromDLL = function () {};
+DoubleLinkedList.prototype.deleteFromDLL = function (position = 1) {
+	let k = 1;
+	let temp;
+	if (!this.list) {
+		console.log("List is empty");
+	}
+	if (position === 1) {
+		this.list = this.list.next;
+		if (this.list) this.list.prev = null;
+	} else {
+		temp = this.list;
+
+		while (k < position && temp.next !== null) {
+			temp = temp.next;
+			k++;
+		}
+
+		if (k !== position) {
+			console.log(`element on specified ${position} position does not exist`);
+			return;
+		}
+
+		temp.prev.next = temp.next;
+		if (temp.next) {
+			// checking if next node is there in way or not
+			temp.next.prev = temp.prev;
+		}
+	}
+};
 
 const dllList = new DoubleLinkedList();
 
@@ -96,3 +124,12 @@ dllList.insertIntoDLL(30);
 dllList.insertIntoDLL(40, 2);
 
 dllList.printDDLList();
+
+dllList.deleteFromDLL(5);
+
+dllList.printDDLList();
+// dllList.deleteFromDLL();
+// dllList.printDDLList();
+// dllList.deleteFromDLL();
+// dllList.printDDLList();
+// dllList.deleteFromDLL();
