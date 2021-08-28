@@ -1,5 +1,9 @@
 /**
  * This Queue implementation using linkedlist in javascript
+ * * - This is the next level implementation of queue in which
+ *   we prevent all those which rare bring removed by maintaining
+ *   the deueue operation.
+ * 
  */
 
 function QNode(data) {

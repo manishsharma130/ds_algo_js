@@ -1,6 +1,9 @@
 // simpleQueue
 /**
  * This Queue implementation using array is static
+ * * - This is the next level implementation of queue in which
+ *   we prevent all those which rare bring removed by maintaining
+ *   the deueue operation.
  */
 const MAXSIZE = 10;
 

@@ -1,6 +1,9 @@
 /**
  * queueDynamicArray
  * This queue implementation is based on dynamic array
+ * * - This is the next level implementation of queue in which
+ *   we prevent all those which rare bring removed by maintaining
+ *   the deueue operation.
  */
 
 const MAXSIZE = 1;
