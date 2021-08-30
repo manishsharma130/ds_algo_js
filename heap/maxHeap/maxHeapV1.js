@@ -1,20 +1,48 @@
 const MAXSIZE = 10;
 
-function MaxHeap(capacity = MAXSIZE) {
+function MaxHeap(arg = []) {
+	let capacity;
+	if (typeof arg === "number") capacity = arg > 0 ? arg : MAXSIZE;
+
 	this.count = 0;
-	this.capacity = capacity;
+	this.capacity = capacity ? capacity : arg.length;
 	try {
-		this.array = new Array(this.capacity).fill(undefined);
+		this.array = Array.isArray(arg)
+			? arg
+			: new Array(this.capacity).fill(undefined);
 	} catch (e) {
 		this.array = null;
 		console.log("Memory Error: ", e);
 	}
 }
 
+MaxHeap.prototype.swap = function (i, j) {
+	if (i !== undefined && j !== undefined) {
+		console.log(i, j);
+		let temp = this.array[i];
+		this.array[i] = this.array[j];
+		this.array[j] = temp;
+	}
+};
+
+MaxHeap.HeapSort = function (arr = []) {
+	/*
+By passing array we can convert in to sort array using heap
+*/
+	let heap = MaxHeap.BuildHeap(arr);
+	for (let i = heap.capacity - 1; i > 0; i--) {
+		heap.swap(0, i);
+		heap.count--;
+		heap.precolateDown(0);
+	}
+	heap.count = arr.length;
+	return heap;
+};
+
 MaxHeap.BuildHeap = (arr = []) => {
 	if (arr.length > 0) {
 		let n = arr.length;
-		let heap = new MaxHeap();
+		let heap = new MaxHeap(arr);
 		for (let i = 0; i < n; i++) heap.array[i] = arr[i];
 		heap.count = n;
 		for (let i = heap.parent(n); i >= 0; i--) heap.precolateDown(i);
@@ -97,14 +125,14 @@ MaxHeap.prototype.printMaxHeap = function () {
 
 const mheap = new MaxHeap();
 
-mheap.insert(10);
-mheap.insert(20);
-mheap.insert(30);
-mheap.insert(40);
-mheap.insert(50);
+// mheap.insert(10);
+// mheap.insert(20);
+// mheap.insert(30);
+// mheap.insert(40);
+// mheap.insert(50);
 
-mheap.printMaxHeap();
-console.log(mheap.getMaximum());
+// mheap.printMaxHeap();
+// console.log(mheap.getMaximum());
 // Deleting the mac and all coming in sorted way
 // console.log(mheap.deleteMax());
 // console.log(mheap.deleteMax());
@@ -116,7 +144,12 @@ mheap.printMaxHeap();
 // Build Heap operation
 console.log("Build Heap operation");
 let h = MaxHeap.BuildHeap([10, 20, 30, 40, 80]);
-// console.log(h);
+
 h.printMaxHeap();
 
 // console.log(mheap.getMaximum());
+
+console.log("Heap Sort");
+
+let hp = MaxHeap.HeapSort([2, 2, 3, 40, 4, 4]);
+hp.printMaxHeap();
