@@ -4,7 +4,7 @@ function MaxHeap(arg = []) {
 	let capacity;
 	if (typeof arg === "number") capacity = arg > 0 ? arg : MAXSIZE;
 
-	this.count = 0;
+	this.count = Array.isArray(arg) && arg.length > 0 ? arg.length : 0;
 	this.capacity = capacity ? capacity : arg.length;
 	try {
 		this.array = Array.isArray(arg)
@@ -18,19 +18,19 @@ function MaxHeap(arg = []) {
 
 MaxHeap.prototype.swap = function (i, j) {
 	if (i !== undefined && j !== undefined) {
-		console.log(i, j);
 		let temp = this.array[i];
 		this.array[i] = this.array[j];
 		this.array[j] = temp;
 	}
 };
 
-MaxHeap.HeapSort = function (arr = []) {
+MaxHeap.MaxHeapSort = function (arr = []) {
 	/*
-By passing array we can convert in to sort array using heap
-*/
+     By passing array we can convert in to sort array using heap
+    */
 	let heap = MaxHeap.BuildHeap(arr);
-	for (let i = heap.capacity - 1; i > 0; i--) {
+	let n = heap.count - 1;
+	for (let i = n; i > 0; i--) {
 		heap.swap(0, i);
 		heap.count--;
 		heap.precolateDown(0);
@@ -42,7 +42,7 @@ By passing array we can convert in to sort array using heap
 MaxHeap.BuildHeap = (arr = []) => {
 	if (arr.length > 0) {
 		let n = arr.length;
-		let heap = new MaxHeap(arr);
+		let heap = new MaxHeap(arr.length);
 		for (let i = 0; i < n; i++) heap.array[i] = arr[i];
 		heap.count = n;
 		for (let i = heap.parent(n); i >= 0; i--) heap.precolateDown(i);
@@ -151,5 +151,5 @@ h.printMaxHeap();
 
 console.log("Heap Sort");
 
-let hp = MaxHeap.HeapSort([2, 2, 3, 40, 4, 4]);
+let hp = MaxHeap.MaxHeapSort([2, 2, 3, 40, 4, 4]);
 hp.printMaxHeap();
