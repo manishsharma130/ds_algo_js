@@ -25,6 +25,7 @@ BSTRecursive.printByTraversalOrders = (bst) => {
 		console.log("Preorder:- " + BSTRecursive.preOrder(bst.root));
 		console.log("Inorder:- " + BSTRecursive.inOrder(bst.root));
 		console.log("Postorder:- " + BSTRecursive.postOrder(bst.root));
+		console.log("Leveorder:- " + BSTRecursive.levelOrder(bst.root));
 	}
 };
 
@@ -111,14 +112,17 @@ BSTRecursive.postOrder = (root) => {
 BSTRecursive.levelOrder = (root) => {
 	let queue = [];
 	let tempNode = root;
+	let str = "";
 	while (tempNode) {
-		console.log(`${tempNode.data}`);
+		// console.log(`${tempNode.data}`);
+		str += `${tempNode.data}${" "}`;
 
 		if (tempNode.left) queue.push(tempNode.left);
 		if (tempNode.right) queue.push(tempNode.right);
 
 		tempNode = queue.shift();
 	}
+	return str.trim();
 };
 
 const bst = new BSTRecursive();
@@ -140,4 +144,5 @@ BSTRecursive.insertionByArray(bst, [10, 40, 50, 5, 2, 15]);
 
 // console.log(BSTRecursive.postOrder(bst.root));
 
+// BSTRecursive.levelOrder(bst.root);
 BSTRecursive.printByTraversalOrders(bst);
