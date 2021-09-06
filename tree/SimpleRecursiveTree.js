@@ -20,6 +20,14 @@ BSTRecursive.insertionByArray = (bst, arr = []) => {
 	});
 };
 
+BSTRecursive.printByTraversalOrders = (bst) => {
+	if (bst && bst instanceof BSTRecursive) {
+		console.log("Preorder:- " + BSTRecursive.preOrder(bst.root));
+		console.log("Inorder:- " + BSTRecursive.inOrder(bst.root));
+		console.log("Postorder:- " + BSTRecursive.postOrder(bst.root));
+	}
+};
+
 // Creating Binary Search Tree Node
 BSTRecursive.createNode = (data) => new TreeNode(data);
 
@@ -55,11 +63,13 @@ BSTRecursive.prototype.insert = function (data) {
 
 BSTRecursive.preOrder = function (root) {
 	// N L R :--> this is the traversal order
+	let str = "";
 	if (root) {
-		console.log(`${root.data}`);
-		BSTRecursive.preOrder(root.left);
-		BSTRecursive.preOrder(root.right);
+		const lstr = BSTRecursive.preOrder(root.left);
+		const rstr = BSTRecursive.preOrder(root.right);
+		str = `${root.data}${lstr ? ", " + lstr : ""}${rstr ? ", " + rstr : ""}`;
 	}
+	return str;
 };
 
 /**
@@ -67,11 +77,15 @@ BSTRecursive.preOrder = function (root) {
  */
 BSTRecursive.inOrder = (root) => {
 	// L N R :--> this is the traversal order
+	let str = "";
 	if (root) {
-		BSTRecursive.inOrder(root.left);
-		console.log(`${root.data}`);
-		BSTRecursive.inOrder(root.right);
+		const lstr = BSTRecursive.inOrder(root.left);
+		const rstr = BSTRecursive.inOrder(root.right);
+		str = `${lstr ? lstr : ""}${
+			(lstr ? ", " : "") + root.data + (rstr ? ", " : "")
+		}${rstr ? rstr : ""}`;
 	}
+	return str;
 };
 
 /**
@@ -79,11 +93,15 @@ BSTRecursive.inOrder = (root) => {
  */
 BSTRecursive.postOrder = (root) => {
 	// L R N :--> this is the traversal order
+	let str = "";
 	if (root) {
-		BSTRecursive.postOrder(root.left);
-		BSTRecursive.postOrder(root.right);
-		console.log(`${root.data}`);
+		const lstr = BSTRecursive.postOrder(root.left);
+		const rstr = BSTRecursive.postOrder(root.right);
+		str = `${lstr || ""}${rstr ? (lstr ? ", " : "") + rstr : ""}${
+			root.data ? (rstr || lstr ? ", " : "") + root.data : ""
+		}`;
 	}
+	return str;
 };
 
 /**
@@ -116,8 +134,10 @@ BSTRecursive.insertionByArray(bst, [10, 40, 50, 5, 2, 15]);
 // BSTRecursive.insertionByArray(bst, [10, 40, 2, 5, 99, 40, 11, 11, 2]);
 // BSTRecursive.insertionByArray(bst, [1, 2, 3, 4, 5]);
 
-BSTRecursive.preOrder(bst.root);
-console.log("-----");
-BSTRecursive.inOrder(bst.root);
-console.log("-----");
-BSTRecursive.postOrder(bst.root);
+// console.log(BSTRecursive.preOrder(bst.root));
+
+// console.log(BSTRecursive.inOrder(bst.root));
+
+// console.log(BSTRecursive.postOrder(bst.root));
+
+BSTRecursive.printByTraversalOrders(bst);
