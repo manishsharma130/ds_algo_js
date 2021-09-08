@@ -160,6 +160,75 @@ BSTRecursive.printKDistant = (root, k) => {
 };
 
 /**
+ * Check if binary tree is BST or not.
+ * While doing In-Order traversal, we can keep track of previously visited node.
+ * If the value of the currently visited node is less than the previous value, then tree is not BST.
+ */
+
+BSTRecursive.isBST = (root) => {
+	let prevNode = null;
+	const isBSTNode = (node) => {
+		if (node) {
+			if (!isBSTNode(node.left)) return false;
+			if (prevNode !== null && node.data <= prevNode.data) return false;
+
+			prevNode = node;
+			return isBSTNode(node.right);
+		}
+		return true;
+	};
+	return isBSTNode(root);
+};
+
+/**
+ * Printing root to leaf paths one per line 
+ */
+ BSTRecursive.printArray = (arr=[])=>{
+	 let str = "";
+    for(let i=0;i<arr.length;i++){
+		str += arr[i]+" ";
+    }
+	console.log(str);
+ }
+
+ BSTRecursive.printPathsRecur = (node,path=[],pathlen=0)=>{
+	 if(node===null) return;
+	 /**
+	  *  append this node to the path array
+	  */
+	 path[pathlen] = node.data;
+	 pathlen++;
+     /**
+       * it's a leaf, so print the path that led to here
+     */
+    if(node.left===null && node.right===null)
+		BSTRecursive.printArray(path);
+   else{
+	  BSTRecursive.printPathsRecur(node.left,path,pathlen);
+	  BSTRecursive.printPathsRecur(node.right,path,pathlen);
+    }    
+ };
+
+
+ BSTRecursive.isFoldable = (root)=>{
+	 const isFoldableUtils = (n1,n2)=>{
+		 /**
+		  * If both left and right subtrees are NULL, then return true
+		  */
+         if(n1===null&&n2===null)return true;
+         /**
+		  * If one of the trees is NULL and other is not, then return false
+		  */
+		 if(n1===null || n2===null)return false;
+
+        return (isFoldableUtils(n1.left,n2.right)&&isFoldableUtils(n1.right,n2.left));
+	 }
+	 return (isFoldableUtils(root.left,root.right));
+ };
+
+
+
+/**
  ** Traversal Binary Search Tree
  *  Pre - in - post (shortcut)
  * 1. Preorder Traversal (N L R):--> (Node,Left,Right),
@@ -266,6 +335,13 @@ console.log(BSTRecursive.preOrder(bst.root));
 // console.log(bst.diameter());
 // console.log(bst.maxDepth());
 
-console.log(BSTRecursive.getMaxWidth(bst.root));
+// console.log(BSTRecursive.getMaxWidth(bst.root));
 
-BSTRecursive.printKDistant(bst.root, 2);
+// BSTRecursive.printKDistant(bst.root, 2);
+
+// console.log("IS BST:- " + BSTRecursive.isBST(bst.root));
+
+BSTRecursive.printPathsRecur(bst.root);
+
+console.log("isFoldable:- ",BSTRecursive.isFoldable(bst.root));
+
