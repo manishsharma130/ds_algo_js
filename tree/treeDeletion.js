@@ -189,7 +189,7 @@ BST.insertIterativeV1(bst, 6);
 
 BST.preOrderIterative(bst);
 // BST.deletionItrativeV1(bst, 40);
-BST.deletionRecursiveV1(bst, 40);
+BST.deletionRecursiveV1(bst, 50);
 BST.preOrderIterative(bst);
 // console.log(BST.minValueIterativeV1(bst));
 // console.log(BST.maxValueIterativeV1(bst));
