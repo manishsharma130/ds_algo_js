@@ -52,6 +52,28 @@ Bst.prototype.insert = function (data) {
 	return prevNode;
 };
 
+Bst.prototype.insertV1 = function (data) {
+    // Recursive way of doing
+	const insert = (node, value) => {
+		if (node.data <= value) {
+			if (node.right === null) {
+				node.right = TreeNode.cretaeNode(value);
+			} else {
+				insert(node.right, value);
+			}
+		}
+		if (node.data > value) {
+			if (node.left === null) {
+				node.left = TreeNode.cretaeNode(data);
+			} else insert(node.left, value);
+		}
+	};
+	if (this.root === null) {
+		this.root = TreeNode.cretaeNode(data);
+		return;
+	} else return insert(this.root, data);
+};
+
 Bst.prototype.preOrderNonRecursive = function () {
 	const stack = [];
 	let str = "";
@@ -196,15 +218,45 @@ Bst.prototype.preOrderNonRecursiveV2 = function () {
 	console.log(path.join(" ").trim());
 };
 
+Bst.prototype.minValue = function () {
+	let tempRoot = this.root;
+	let minv = tempRoot?.data || null;
+	while (tempRoot && tempRoot.left !== null) {
+		minv = tempRoot.left.data;
+		tempRoot = tempRoot.left;
+	}
+	console.log("Min Value:- ", minv);
+	return minv;
+};
+
+Bst.prototype.maxValue = function () {
+	let tempRoot = this.root;
+	let maxv = tempRoot?.data || null;
+	while (tempRoot && tempRoot.right !== null) {
+		maxv = tempRoot.right.data;
+		tempRoot = tempRoot.right;
+	}
+	console.log("MaxValue:- ", maxv);
+	return maxv;
+};
+
 const bst = new Bst();
 
-bst.insert(10);
-bst.insert(40);
-bst.insert(5);
-bst.insert(2);
+// bst.insert(10);
 // bst.insert(40);
-bst.insert(15);
-bst.insert(50);
+// bst.insert(5);
+// bst.insert(2);
+// // bst.insert(40);
+// bst.insert(15);
+// bst.insert(50);
+
+bst.insertV1(10);
+bst.insertV1(40);
+bst.insertV1(5);
+bst.insertV1(2);
+// bst.insertV1(40);
+bst.insertV1(15);
+bst.insertV1(50);
 
 // bst.inOrderNonRecursive();
 // bst.preOrderNonRecursive();
@@ -215,3 +267,6 @@ bst.insert(50);
 // bst.preOrderNonRecursiveV2();
 
 bst.postOrderNonRecursiveV2();
+
+// bst.minValue();
+// bst.maxValue();
