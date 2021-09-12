@@ -1,5 +1,7 @@
 /**
  * In this section we are going to perform deletion operation in recusrive and non-recursive way
+ * References:- https://www.geeksforgeeks.org/binary-search-tree-set-3-iterative-delete/
+ * References:- https://www.geeksforgeeks.org/binary-search-tree-set-2-delete/
  */
 
 function TreeNode(data) {
