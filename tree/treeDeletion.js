@@ -34,7 +34,7 @@ BST.insertIterativeV1 = (bst, data) => {
 	// console.log("Before while:- ", root);
 	while (root !== null) {
 		// console.log("root:- ", root);
-		if (root.data < data) {
+		if (root.data <= data) {
 			prevNode = root;
 			root = root.right;
 		} else if (root.data > data) {
