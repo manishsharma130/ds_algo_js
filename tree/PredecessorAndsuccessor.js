@@ -174,15 +174,35 @@ BST.findPostOrderPredecessor = (bst, element) => {
 	let predecessor = null;
 	let isReq = true;
 
-	const findPostOrderSuccessorRecursive = (node = null) => {
+	const findPostOrderPredecessorRecursive = (node = null) => {
 		if (node === null) return;
-		if (isReq) {
-			findPostOrderSuccessorRecursive(node.left);
-			findPostOrderSuccessorRecursive(node.right);
-		}
+		if (isReq) findPostOrderPredecessorRecursive(node.left);
+		if (isReq) findPostOrderPredecessorRecursive(node.right);
+		if (element === node.data) isReq = false;
+		else if (isReq) predecessor = node.data;
 	};
 
+	findPostOrderPredecessorRecursive(root);
+	predecessor = isReq ? null : predecessor;
 	return predecessor;
+};
+
+BST.findPostOrderSuccessor = (bst, element) => {
+	const root = bst.root;
+	let successor = null;
+	let isReq = true;
+	const findPostOrderSuccessorRecursive = (node = null) => {
+		if (node === null) return;
+		if (successor === null) findPostOrderSuccessorRecursive(node.left);
+		if (successor === null) findPostOrderSuccessorRecursive(node.right);
+		if (element === node.data) {
+			isReq = false;
+		} else if (!isReq && successor === null) {
+			successor = node.data;
+		}
+	};
+	findPostOrderSuccessorRecursive(root);
+	return successor;
 };
 
 const bst1 = new BST();
@@ -193,10 +213,12 @@ BST.insertIterative(bst1, 2);
 BST.insertIterative(bst1, 15);
 BST.insertIterative(bst1, 30);
 BST.insertIterative(bst1, 50);
-BST.preOrderIterativeNRec(bst1);
-BST.inOrderNonRecursive(bst1);
+// BST.preOrderIterativeNRec(bst1);
+// BST.inOrderNonRecursive(bst1);
 
 // console.log(BST.findPreOrderPredecessorRec(bst1, 1000));
 // console.log(BST.findPreOrderSuccessorRec(bst1, 1000));
 // console.log(BST.findInOrderPredecessorRec(bst1, -50));
-console.log(BST.findInOrderSuccessorRec(bst1, 50));
+// console.log(BST.findInOrderSuccessorRec(bst1, 50));
+// console.log(BST.findPostOrderPredecessor(bst1, 5));
+console.log(BST.findPostOrderSuccessor(bst1, 1000));
