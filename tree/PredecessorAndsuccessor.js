@@ -76,23 +76,22 @@ BST.preOrderIterativeNRec = (bst) => {
 	console.log("Preorder:- ", str);
 };
 
-// BST.postOrderRec = (bst) => {
-// 	// L R N :--> this is the traversal order
-// 	let str = "";
-// 	const root = bst.root || null;
-
-// 	const postOrder = (node) => {
-// 		if (root) {
-// 			const lstr = BSTRecursive.postOrder(root.left);
-// 			const rstr = BSTRecursive.postOrder(root.right);
-// 			str = `${lstr || ""}${rstr ? (lstr ? ", " : "") + rstr : ""}${
-// 				root.data ? (rstr || lstr ? ", " : "") + root.data : ""
-// 			}`;
-// 		}
-// 	};
-
-// 	return str;
-// };
+BST.postOrderRec = (bst) => {
+	// L R N :--> this is the traversal order
+	const root = bst.root || null;
+	const postOrder = (node) => {
+		if (node) {
+			const lstr = postOrder(node.left);
+			const rstr = postOrder(node.right);
+			return `${lstr || ""}${rstr ? (lstr ? ", " : "") + rstr : ""}${
+				node.data ? (rstr || lstr ? ", " : "") + node.data : ""
+			}`;
+		}
+	};
+	const rst = postOrder(root);
+	console.log(rst);
+	return rst;
+};
 
 BST.findPreOrderPredecessorRec = (bst, element) => {
 	// Recursion implementation
@@ -222,3 +221,4 @@ BST.insertIterative(bst1, 50);
 // console.log(BST.findInOrderSuccessorRec(bst1, 50));
 // console.log(BST.findPostOrderPredecessor(bst1, 5));
 console.log(BST.findPostOrderSuccessor(bst1, 1000));
+BST.postOrderRec(bst1);
