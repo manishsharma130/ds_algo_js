@@ -26,24 +26,24 @@ TBT.inorder = (tbt) => {
 	}
 	// reach leftmost node
 	while (ptr.lthread === false) ptr == ptr.left;
-
 	// One by one print successors
-	while (ptr !== null) {
-		str += ptr.data;
+	while (ptr && ptr !== null) {
+		str += `${ptr?.data || ""} `;
 		ptr = TBT.inorderSuccessor(ptr);
 	}
+	console.log(str);
 };
 
 TBT.inorderSuccessor = (node) => {
 	if (node && node !== null) {
 		// If rthread is set, we can qucikly find
-		if (node.rthread === true) return ptr.right;
+		if (node.rthread === true) return node.right;
 		// Else retrun leftmost child of right subtree
-		ptr = ptr.right;
-		while (ptr.lthread === false) {
-			ptr = ptr.left;
-			return ptr;
+		node = node.right;
+		while (node.lthread === false) {
+			node = node.left;
 		}
+		return node;
 	} else return null;
 };
 TBT.insert = (bst, key) => {
@@ -80,28 +80,97 @@ TBT.insert = (bst, key) => {
 	if (par === null) bst.root = tmp;
 	else if (key < par.data) {
 		// that's mean a node to be inserted, is left child of parent
-		temp.left = par.left;
-		temp.right = par;
+		tmp.left = par.left;
+		tmp.right = par;
 		par.lthread = false;
-		par.left = temp;
+		par.left = tmp;
 	} else {
 		// that's mean a node to be inserted, is right child of parent
-		temp.right = par.right;
-		temp.left = par;
+		tmp.right = par.right;
+		tmp.left = par;
 		par.rthread = false;
-		par.right = temp;
+		par.right = tmp;
+	}
+};
+
+TBT.inSucc = (ptr) => {
+	if (ptr.rthread === true) return ptr.right;
+	ptr = ptr.right;
+	while (ptr.lthread === false) ptr = ptr.left;
+	return ptr;
+};
+TBT.inPred = (ptr) => {
+	if (ptr.lthread === true) return ptr.left;
+	ptr = ptr.left;
+	while (ptr.rthread == false) ptr = ptr.right;
+	return ptr;
+};
+
+TBT.case1 = (bst, par, ptr) => {
+	if (par === null) {
+		bst.root = null;
+	}
+	//If Node to be deleted is left of its parent
+	else if (ptr === par.left) {
+		par.lthread = true;
+		par.left = ptr.left;
+	} else {
+		par.rthread = true;
+		par.right = ptr.right;
+	}
+};
+
+TBT.case2 = (bst, par, ptr) => {
+	let child;
+
+	// Initialize child Node to be deleted has left child
+	if (ptr.lthread === false) child = ptr.left;
+	else child = ptr.right;
+
+	// Node is left  child of its parent
+	if (par === null) bst.root = child;
+	// Node is left child of its parent
+	else if (ptr === par.left) par.left = child;
+	else par.left = child;
+
+	// Find Successor and Predecessor
+
+	let s = TBT.inSucc(ptr);
+	let p = TBT.inPred(ptr);
+
+	// If ptr has left subtree
+	if (ptr.lthread === false) p.right = s;
+	else s.left = p;
+};
+
+TBT.case3 = (bst, par, ptr) => {
+	let parsucc = ptr;
+	let succ = ptr.right;
+
+	// Find leftmost child of successor
+	while (succ.lthread === false) {
+		parsucc = succ;
+		succ = succ.left;
+	}
+	ptr.data = succ.data;
+
+	if (succ.lthread === true && succ.rthread === true) {
+		TBT.case1(bst, parsucc, succ);
+	} else {
+		TBT.case2(bst, parsucc, succ);
 	}
 };
 
 TBT.delete = (bst, target) => {
 	// Initialize the parent as Null and Node as root
-	let par = null,
-		ptr = bst.root;
+	let par = null;
+	let ptr = bst.root;
 	// Set true if key is found
 	let found = false;
 
-	// Search  key  is BST : find Node  and its  parent
-	while (ptr !== null) {
+	// Search  key in BST : find Node and its parent
+	// Parent.
+	while (ptr && ptr !== null) {
 		if (target === ptr.data) {
 			found = true;
 			break;
@@ -115,6 +184,35 @@ TBT.delete = (bst, target) => {
 			else break;
 		}
 	}
-
-	// if(!found)
+	/**
+	 *  Applying different cases here
+	 */
+	if (!found) {
+		console.log("target not present in tree");
+	} else if (ptr.lthread === false && ptr.rthread === false) {
+		bst.root = TBT.case3(bst, par, ptr);
+	} else if (ptr.lthread === false) {
+		bst.root = TBT.case2(bst, par, ptr);
+	} else if (ptr.rthread === false) {
+		bst.root = TBT.case2(bst, par, ptr);
+	} else {
+		TBT.case1(bst, par, ptr);
+	}
 };
+
+const tbt1 = new TBT();
+
+TBT.insert(tbt1, 1);
+TBT.insert(tbt1, 3);
+TBT.insert(tbt1, 5);
+TBT.insert(tbt1, 7);
+TBT.insert(tbt1, 12);
+TBT.insert(tbt1, 2);
+TBT.insert(tbt1, 10);
+TBT.insert(tbt1, 6);
+
+TBT.inorder(tbt1);
+TBT.delete(tbt1, 6);
+TBT.inorder(tbt1);
+TBT.insert(tbt1, 6);
+TBT.inorder(tbt1);
