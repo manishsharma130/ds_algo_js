@@ -1,3 +1,6 @@
+/**
+ * References:- https://www.youtube.com/watch?v=a96JFhw5Ee4
+ */
 function Node(data) {
 	this.data = data;
 	this.left = null;
