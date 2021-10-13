@@ -1,3 +1,8 @@
+/**
+ * For Basic Inserion operation we use this ref:- https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * for Basic Deletion operation we use this ref:- https://www.geeksforgeeks.org/avl-tree-set-2-deletion/
+ */
+
 function Node(data) {
 	this.data = data;
 	this.left = null;
